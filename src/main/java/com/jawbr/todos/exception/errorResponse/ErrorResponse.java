@@ -1,8 +1,11 @@
 package com.jawbr.todos.exception.errorResponse;
 
+import lombok.Data;
+
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+@Data
 public class ErrorResponse {
 
     private int status;
@@ -13,30 +16,6 @@ public class ErrorResponse {
         this.status = status;
         this.message = message;
         this.timeStamp = formatTimestamp(timeStamp);
-    }
-
-    public int getStatus() {
-        return status;
-    }
-
-    public void setStatus(int status) {
-        this.status = status;
-    }
-
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
-    }
-
-    public String getTimeStamp() {
-        return timeStamp;
-    }
-
-    public void setTimeStamp(String timeStamp) {
-        this.timeStamp = timeStamp;
     }
 
     private String formatTimestamp(long timeStamp) {
