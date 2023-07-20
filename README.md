@@ -2,7 +2,8 @@
   To-Do List
 </h1>
 
-API para gerenciar tarefas (CRUD) [desse desafio](https://github.com/simplify-liferay/desafio-junior-backend-simplify) para desenvolvedores backend júnior.
+API para gerenciar tarefas (CRUD) [desse desafio](https://github.com/simplify-liferay/desafio-junior-backend-simplify)
+para desenvolvedores backend júnior.
 
 ## Tópicos
 
@@ -22,10 +23,13 @@ API para gerenciar tarefas (CRUD) [desse desafio](https://github.com/simplify-li
 
 - Clonar repositório git
 - Construir o projeto:
+
 ```
 ./mvnw clean package
 ```
-- Executar a aplicação: 
+
+- Executar a aplicação:
+
 ```
 java -jar target/todos-0.0.1-SNAPSHOT.jar
 ```
@@ -37,6 +41,7 @@ A API poderá ser acessada em [localhost:8080](http://localhost:8080).
 Para fazer as requisições HTTP abaixo, foi utilizado a ferramenta [Postman](https://www.postman.com):
 
 - POST - Criar Tarefa
+
 ```
 /api/todos
 
@@ -47,11 +52,23 @@ Para fazer as requisições HTTP abaixo, foi utilizado a ferramenta [Postman](ht
     "prioridade": 5
 }
 ```
+
 - GET - Listar Tarefas
+
 ```
 /api/todos
 ```
+
+**Parâmetros**
+
+|       Nome | Requerido |  Tipo  | Descrição                                                                                                                                                                 |
+|-----------:|:---------:|:------:|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+|     `page` | opcional  |  int   | Número da página. <br/> Padrão: 0                                                                                                                                         |
+| `pageSize` | opcional  |  int   | Tamanho da página. Quantas tarefas irão aparecer por página. <br/> Padrão: 10 <br/> Máxima: 50                                                                            |
+|   `sortBy` | opcional  | string | Ordenar pelo campo desejado. <br/> Valores suportados: `id`, `nome`, `descricao`, `realizado`, `prioridade`. <br/> <br/> Quando não especificado. <br/> <br/>Padrão: `id` |
+
 Resposta da requisição HTTP GET
+
 ```
 {
     "content": [
@@ -90,7 +107,9 @@ Resposta da requisição HTTP GET
     "empty": false
 }
 ```
+
 - PUT - Atualizar Tarefa
+
 ```
 /api/todos/1
 
@@ -101,7 +120,9 @@ Resposta da requisição HTTP GET
     "prioridade": 0
 }
 ```
+
 Resposta da requisição HTTP PUT
+
 ```
 Status 200 OK
 
@@ -113,11 +134,15 @@ Status 200 OK
     "prioridade": 0
 }
 ```
+
 - DELETE - Deletar Tarefa
+
 ```
 /api/todos/1
 ```
+
 Resposta da requisição HTTP PUT
+
 ```
 Status 204 No Content
 ```
