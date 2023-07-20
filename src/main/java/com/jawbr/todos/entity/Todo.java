@@ -23,10 +23,8 @@ public class Todo {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @NotBlank(message = "Nome da tarefa não pode estar vazia!")
     private String nome;
 
-    @NotBlank(message = "Descrição da tarefa não pode estar vazia!")
     private String descricao;
 
     private boolean realizado;
