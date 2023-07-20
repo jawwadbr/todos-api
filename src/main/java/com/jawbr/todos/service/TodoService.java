@@ -2,6 +2,7 @@ package com.jawbr.todos.service;
 
 import com.jawbr.todos.dto.request.TodoRequest;
 import com.jawbr.todos.entity.Todo;
+import com.jawbr.todos.exception.TodoNotFoundException;
 import com.jawbr.todos.repository.TodoRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -30,7 +31,7 @@ public class TodoService {
                                 Sort.Direction.ASC,
                                 sortBy)))
                 .filter(list -> !list.isEmpty())
-                .orElseThrow(() -> new RuntimeException("Nenhuma tarefa encontrada."));
+                .orElseThrow(() -> new TodoNotFoundException("Nenhuma tarefa encontrada."));
 
     }
 
@@ -44,26 +45,27 @@ public class TodoService {
         return todoRepository.save(newTodo);
     }
 
-    public Page<Todo> updateTodo(int id, TodoRequest todo) {
-        todoRepository.findById(id).ifPresentOrElse((t) -> {
-            todoRepository.save(Todo.builder()
-                    .id(id)
-                    .nome(todo.nome())
-                    .descricao(todo.descricao())
-                    .prioridade(todo.prioridade())
-                    .realizado(todo.realizado())
-                    .build());
-        }, () -> {
-            throw new RuntimeException(String.format("Tarefa de id '%d' não encontrado", id));
-        });
+    public Todo updateTodo(int id, TodoRequest todo) {
+        return todoRepository.findById(id)
+                .map((t) -> {
+                    Todo updatedTodo = Todo.builder()
+                            .id(id)
+                            .nome(todo.nome())
+                            .descricao(todo.descricao())
+                            .prioridade(todo.prioridade())
+                            .realizado(todo.realizado())
+                            .build();
 
-        return findAllTodos(0, 10, "id");
+                    return todoRepository.save(updatedTodo);
+                })
+                .orElseThrow(() -> new TodoNotFoundException(String.format("Tarefa de id '%d' não encontrada.", id)));
     }
+
 
     public void deleteTodoById(int id) {
         todoRepository.findById(id).ifPresentOrElse(
                 todoRepository::delete, () -> {
-                    throw new RuntimeException(String.format("Tarefa de id '%d' não encontrado", id));
+                    throw new TodoNotFoundException(String.format("Tarefa de id '%d' não encontrada.", id));
                 }
         );
 
