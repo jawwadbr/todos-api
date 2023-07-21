@@ -25,10 +25,11 @@ public class TodoService {
         sortBy = Optional.ofNullable(sortBy)
                 .filter(s -> !s.isEmpty())
                 .orElse("id");
+        Sort.Direction direction = sortBy.equalsIgnoreCase("prioridade") ? Sort.Direction.DESC : Sort.Direction.ASC;
         return Optional.of(todoRepository.findAll(
                         PageRequest.of(Optional.ofNullable(page).orElse(0),
                                 pageSize,
-                                Sort.Direction.ASC,
+                                direction,
                                 sortBy)))
                 .filter(list -> !list.isEmpty())
                 .orElseThrow(() -> new TodoNotFoundException("Nenhuma tarefa encontrada."));
