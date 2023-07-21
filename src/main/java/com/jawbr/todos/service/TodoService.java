@@ -40,7 +40,7 @@ public class TodoService {
         Todo newTodo = Todo.builder()
                 .nome(todo.nome())
                 .descricao(todo.descricao())
-                .prioridade(todo.prioridade())
+                .prioridade(updatePrioridadeIfIsRealizado(todo))
                 .realizado(todo.realizado())
                 .build();
         return todoRepository.save(newTodo);
@@ -53,7 +53,7 @@ public class TodoService {
                             .id(id)
                             .nome(todo.nome())
                             .descricao(todo.descricao())
-                            .prioridade(todo.prioridade())
+                            .prioridade(updatePrioridadeIfIsRealizado(todo))
                             .realizado(todo.realizado())
                             .build();
 
@@ -69,5 +69,9 @@ public class TodoService {
                 }
         );
 
+    }
+
+    private int updatePrioridadeIfIsRealizado(TodoRequest todo) {
+        return todo.realizado() ? 0 : todo.prioridade();
     }
 }
