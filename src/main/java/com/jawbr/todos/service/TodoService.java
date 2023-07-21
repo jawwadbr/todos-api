@@ -62,7 +62,6 @@ public class TodoService {
                 .orElseThrow(() -> new TodoNotFoundException(String.format("Tarefa de id '%d' não encontrada.", id)));
     }
 
-
     public void deleteTodoById(int id) {
         todoRepository.findById(id).ifPresentOrElse(
                 todoRepository::delete, () -> {
