@@ -2,6 +2,7 @@ package com.jawbr.todos.exception.handler;
 
 import com.jawbr.todos.exception.TodoNotFoundException;
 import com.jawbr.todos.exception.errorResponse.ErrorResponse;
+import org.springframework.data.mapping.PropertyReferenceException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -25,6 +26,12 @@ public class TodoExceptionHandler {
         BindingResult result = exc.getBindingResult();
         String message = Objects.requireNonNull(result.getFieldError()).getDefaultMessage();
         ErrorResponse error = new ErrorResponse(HttpStatus.BAD_REQUEST.value(), message, System.currentTimeMillis());
+        return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(PropertyReferenceException.class)
+    public ResponseEntity<ErrorResponse> handleException(PropertyReferenceException exc) {
+        ErrorResponse error = new ErrorResponse(HttpStatus.BAD_REQUEST.value(), exc.getMessage(), System.currentTimeMillis());
         return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
     }
 }
